@@ -1,45 +1,6 @@
-// Assignment Code for Random Generator homework
-//Global variables
-let result = [];
-let userInput = [];
-
-//Password variable values
-//Numerical characters
-let number = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-//specialChoice characters
-let special = [
-  "!",
-  "@",
-  "#",
-  "$",
-  "%",
-  "^",
-  "&",
-  "*",
-  "(",
-  ")",
-  "_",
-  "-",
-  "+",
-  "=",
-  "{",
-  "[",
-  "}",
-  "]",
-  ";",
-  ":",
-  '"',
-  "<",
-  ">",
-  ",",
-  ".",
-  "|",
-  "`",
-  "~",
-  "/",
-];
-//lowerChoicecase characters
-let lower = [
+// // Assignment Code
+let lengthOfPassword = 8;
+let lettersLower = [
   "a",
   "b",
   "c",
@@ -67,8 +28,7 @@ let lower = [
   "y",
   "z",
 ];
-//upperChoicecase characters
-let upper = [
+let lettersUpper = [
   "A",
   "B",
   "C",
@@ -96,56 +56,86 @@ let upper = [
   "Y",
   "Z",
 ];
-
-// Assignment Code (given by homework)
+let theNumbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+let specialChar = [
+  "!",
+  "#",
+  "$",
+  "%",
+  "&",
+  "(",
+  ")",
+  "*",
+  "-",
+  ".",
+  "/",
+  ";",
+  ":",
+  "<",
+  "=",
+  ">",
+  "@",
+  "]",
+  "[",
+  "^",
+  "_",
+  "`",
+  "{",
+  "|",
+  "}",
+  "~",
+  '"',
+];
+let userChoice = [];
 let generateBtn = document.querySelector("#generate");
-// Add event listener to generate button (given by homework)
 generateBtn.addEventListener("click", writePassword);
 
-//This function is used to generate the password and randomize it as well
 function generatePassword() {
-  let randomPassword = "";
-  for (let i = 0; i < result; i++) {
-    let randomValue = Math.floor(Math.random() * userInput.length);
-    randomPassword = randomPassword + userInput[randomValue];
+  let password = "";
+  for (let i = 0; i < lengthOfPassword; i++) {
+    let passwordIndex = Math.floor(Math.random() * userChoice.length);
+    password = password + userChoice[passwordIndex];
   }
-  return randomPassword;
+  console.log(password);
+  return password;
 }
 
-// Write password to the #password input (given by homework and added onto by me)
 function writePassword() {
-  let prompt = UserInput();
-  let passwordText = document.querySelector("#password");
+  let validPrompt = prompts();
+  let passwordInput = document.querySelector("#password");
 
-  if (prompt) {
-    let randomPassword = generatePassword();
-    passwordText.value = randomPassword;
+  if (validPrompt) {
+    let userPassword = generatePassword();
+    passwordInput.value = userPassword;
   } else {
-    alert("You must choose at least one of the characters!");
+    passwordInput.value = "please try again.";
   }
 }
 
-//A function to allow the user's choices to be taken into account
-function UserInput() {
-  userInput = [];
-  result = prompt("How many characters between 8 and 128?");
-  //If it is not a number between 8 and 128 the alert will trigger
-  if (isNaN(result) || result < 8 || result > 128) {
-    alert("Must have 8 to 128 characters!");
+function prompts() {
+  lengthOfPassword = parseInt(
+    prompt("How long would you like your password to be? (8 - 128)")
+  );
+
+  if (
+    isNaN(lengthOfPassword) ||
+    lengthOfPassword < 8 ||
+    lengthOfPassword > 128
+  ) {
+    alert("the length has to be a number between 8 and 128");
     return false;
   }
-  if (confirm("Will the password contain numbers?")) {
-    userInput = userInput.concat(number);
+  if (confirm("would you like lowercase letters?")) {
+    userChoice = userChoice.concat(lettersLower);
   }
-  if (confirm("Will the password contain special characters?")) {
-    userInput = userInput.concat(special);
+  if (confirm("would you like uppercase letters?")) {
+    userChoice = userChoice.concat(lettersUpper);
   }
-  if (confirm("Will this password contain lower case letters?")) {
-    userInput = userInput.concat(lower);
+  if (confirm("would you like special characters?")) {
+    userChoice = userChoice.concat(specialChar);
   }
-  if (confirm("Will this password contain upper case letters?")) {
-    userInput = userInput.concat(upper);
+  if (confirm("would you like numbers?")) {
+    userChoice = userChoice.concat(theNumbers);
   }
-  console.log(userInput);
   return true;
 }
